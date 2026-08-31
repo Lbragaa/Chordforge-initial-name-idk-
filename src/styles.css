@@ -1,0 +1,235 @@
+:root {
+  color: #172018;
+  background: #f5f7f2;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  background: #215c38;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+}
+
+button:disabled {
+  background: #9aa59c;
+  cursor: not-allowed;
+}
+
+.app-shell {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 2rem;
+}
+
+.app-header {
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  line-height: 1;
+  margin: 0;
+}
+
+.app-header p {
+  color: #4e5d52;
+  max-width: 720px;
+}
+
+.eyebrow {
+  color: #215c38;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.dashboard {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #dce5dc;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.panel h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.section-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.status {
+  color: #4e5d52;
+  margin: 0;
+}
+
+.status-connected {
+  color: #167a3e;
+}
+
+.status-running {
+  color: #167a3e;
+}
+
+.status-error,
+.status-unsupported,
+.error {
+  color: #b3261e;
+}
+
+.message,
+.empty {
+  color: #5f6f63;
+  margin: 0.75rem 0 0;
+}
+
+.pressed-panel,
+.event-log {
+  grid-column: 1 / -1;
+}
+
+.pressed-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.note-pill {
+  align-items: baseline;
+  background: #e6f2e8;
+  border: 1px solid #bad8c1;
+  border-radius: 8px;
+  color: #133d25;
+  display: inline-flex;
+  font-size: 1.5rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.note-pill small,
+.sim-note small {
+  color: #5f6f63;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.device-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.device-list li {
+  border: 1px solid #dce5dc;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem;
+}
+
+.device-list span {
+  color: #5f6f63;
+  font-size: 0.9rem;
+}
+
+.event-log {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.event-row {
+  align-items: center;
+  border-bottom: 1px solid #edf1ed;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 86px 72px 64px 80px 64px minmax(90px, 1fr);
+  padding: 0.45rem 0;
+}
+
+.event-row span {
+  color: #5f6f63;
+  font-size: 0.88rem;
+}
+
+.simulator-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+}
+
+.simulator-help {
+  color: #5f6f63;
+  margin: -0.25rem 0 0.75rem;
+}
+
+.sim-note {
+  background: #edf1ed;
+  border: 1px solid #dce5dc;
+  color: #172018;
+  display: grid;
+  gap: 0.15rem;
+  min-height: 64px;
+  place-items: center;
+}
+
+.sim-note.active {
+  background: #215c38;
+  color: #fff;
+}
+
+.sim-note.active small {
+  color: #d7eadb;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 1rem;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .event-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

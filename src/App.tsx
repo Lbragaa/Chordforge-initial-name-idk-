@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react' // react things. useState lets the component remember information. useEffect - lets it connect to something outside react
 import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
+import { midiNoteToName } from './music/noteNames'
 import './App.css'
+
 
 function App() {
   const [pressedNotes, setPressedNotes] = useState<number[]>([]) // now the initial value is an empty the list, and the expect one is a number list
@@ -35,7 +37,7 @@ function App() {
     }
 
     // os chamadores de funcao tao aq
-    window.addEventListener('keydown', handleKeyDown) 
+    window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('keyup', handleKeyUp)
 
     return () => {
@@ -43,6 +45,11 @@ function App() {
       window.removeEventListener('keyup', handleKeyUp)
     }
   }, []) // means React should connect this listener when the component appears, not after every render.
+
+  // i had put this inside useEffect. Thats dumb.
+  const pressedNoteNames = pressedNotes.map((noteNumber) => { // map agora tacou a funcao em geral. legal
+    return midiNoteToName(noteNumber)
+  })
 
   return (
     <main className="app-shell">
@@ -65,17 +72,25 @@ function App() {
           <article className="input-card">
             <p className="input-status">Test with your keyboard</p>
             <h3>Computer keyboard</h3>
+
             <p className="note-readout">
-              {/* This is like a variable apparently, getting the lastNote and changing it. Now pressed notes is like a lisssstttt and it has a join*/}
               Pressed notes:{' '}
-            <strong>
-              {pressedNotes.length === 0 ? 'None' : pressedNotes.join(', ')}
-            </strong>
+              <strong>
+                {pressedNoteNames.length === 0
+                  ? 'None'
+                  : pressedNoteNames.join(', ')}
+              </strong>
+            </p>
+
+            <p className="note-readout">
+              MIDI numbers:{' '}
+              <strong>
+                {pressedNotes.length === 0 ? 'None' : pressedNotes.join(', ')}
+              </strong>
             </p>
 
             <p>
-              Use letter keys as piano keys while developing and practising
-              without a MIDI controller.
+              Use letter keys as piano keys without a MIDI controller.
             </p>
           </article>
 

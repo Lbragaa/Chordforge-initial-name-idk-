@@ -1,0 +1,89 @@
+.piano-keyboard {
+  position: relative;
+  width: 100%;
+  height: clamp(10rem, 25vw, 14rem);
+  margin: 1.5rem 0;
+  user-select: none;
+}
+
+.piano-keyboard__white-keys {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  height: 100%;
+}
+
+.piano-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  padding: 0.65rem 0.2rem;
+  transition:
+    background-color 90ms ease,
+    color 90ms ease,
+    transform 90ms ease;
+}
+
+.piano-key--white {
+  border: 1px solid #b9b4c5;
+  border-radius: 0 0 0.45rem 0.45rem;
+  color: #25212e;
+  background: #f7f4fc;
+}
+
+.piano-key--white + .piano-key--white {
+  border-left: 0;
+}
+
+.piano-key--black {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 8%;
+  height: 62%;
+  transform: translateX(-50%);
+  border: 1px solid #08070a;
+  border-radius: 0 0 0.4rem 0.4rem;
+  color: #f7f5ff;
+  background: #17141e;
+  box-shadow: 0 0.4rem 0.7rem rgb(0 0 0 / 35%);
+}
+
+.piano-key--white.piano-key--pressed {
+  color: #1c132f;
+  background: #bcaaff;
+}
+
+.piano-key--black.piano-key--pressed {
+  color: #1c132f;
+  background: #9f8cff;
+  transform: translateX(-50%) translateY(0.15rem);
+}
+
+.piano-key__note {
+  font-size: clamp(0.58rem, 1.7vw, 0.78rem);
+  font-weight: 700;
+}
+
+.piano-key__computer-key {
+  min-width: 1.55rem;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid currentColor;
+  border-radius: 0.3rem;
+  color: inherit;
+  background: transparent;
+  font-family: inherit;
+  font-size: clamp(0.58rem, 1.7vw, 0.72rem);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .piano-keyboard {
+    height: 9rem;
+  }
+
+  .piano-key__note {
+    display: none;
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react' // react things. useState lets the component remember information. useEffect - lets it connect to something outside react
+import { PianoKeyboard } from './components/PianoKeyboard'
 import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
 import { midiNoteToName } from './music/noteNames'
 import './App.css'
@@ -88,6 +89,8 @@ function App() {
                 {pressedNotes.length === 0 ? 'None' : pressedNotes.join(', ')}
               </strong>
             </p>
+
+            <PianoKeyboard pressedNotes={pressedNotes} />
 
             <p>
               Use letter keys as piano keys without a MIDI controller.

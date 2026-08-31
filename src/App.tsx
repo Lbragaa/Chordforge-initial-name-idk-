@@ -1,124 +1,69 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useState } from 'react' // react things. useState lets the component remember information. useEffect - lets it connect to something outside react
+import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
 import './App.css'
 
-
 function App() {
-  const [count, setCount] = useState(0)
+  const [lastNote, setLastNote] = useState<number | null>(null) // number | null is the allowed values to them. the (null) is its initial value
+
+  useEffect(() => { // usando o tal do useEffect do React
+    function handleKeyDown(event: KeyboardEvent) {
+      const noteNumber = getNoteForKeyboardCode(event.code)
+
+      if (noteNumber !== undefined) { // se existir nota
+        setLastNote(noteNumber)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => { // it removes the listener if the component leaves the page
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, []) // means React should connect this listener when the component appears, not after every render.
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <main className="app-shell">
+      <header className="app-header">
+        <p className="eyebrow">Musicianship trainer</p>
+        <h1>Chordforge</h1>
+        <p className="introduction">
+          Learn to recognize and play musical ideas using the keyboard you have
+          available.
+        </p>
+      </header>
+
+      <section className="input-section" aria-labelledby="input-heading">
         <div>
-          {/* I edited this name. Feel the aura. 
-          Also, commenting on this shit is super super weird. Apparently it dependes where your at the code.*/}
-          <h1>Chordforge</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+          <p className="section-label">Input sources</p>
+          <h2 id="input-heading">How you will play</h2>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
+        <div className="input-grid">
+          <article className="input-card">
+            <p className="input-status">Available during development</p>
+            <h3>Computer keyboard</h3>
+            <p className="note-readout">
+              {/* This is like a variable apparently, getting the lastNote and changing it*/}
+              Last note: <strong>{lastNote ?? 'None yet'}</strong>
+            </p>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+            <p>
+              Use letter keys as piano keys while developing and practising
+              without a MIDI controller.
+            </p>
+          </article>
+
+          <article className="input-card">
+            <p className="input-status">Added in a later milestone</p>
+            <h3>MIDI keyboard</h3>
+            <p>
+              Connect a MIDI controller for a wider note range and velocity
+              information.
+            </p>
+          </article>
         </div>
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    </main>
   )
 }
 

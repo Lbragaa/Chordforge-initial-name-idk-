@@ -3,21 +3,44 @@ import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o ba
 import './App.css'
 
 function App() {
-  const [lastNote, setLastNote] = useState<number | null>(null) // number | null is the allowed values to them. the (null) is its initial value
+  const [pressedNotes, setPressedNotes] = useState<number[]>([]) // now the initial value is an empty the list, and the expect one is a number list
 
-  useEffect(() => { // usando o tal do useEffect do React
+  useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       const noteNumber = getNoteForKeyboardCode(event.code)
 
-      if (noteNumber !== undefined) { // se existir nota
-        setLastNote(noteNumber)
+      if (noteNumber === undefined) {
+        return
       }
+
+      setPressedNotes((previousNotes) => {
+        if (previousNotes.includes(noteNumber)) {
+          return previousNotes
+        }
+
+        return [...previousNotes, noteNumber] // Junta uma lista agrupada dos dois.
+      })
     }
 
-    window.addEventListener('keydown', handleKeyDown)
+    function handleKeyUp(event: KeyboardEvent) {
+      const noteNumber = getNoteForKeyboardCode(event.code)
 
-    return () => { // it removes the listener if the component leaves the page
+      if (noteNumber === undefined) {
+        return
+      }
+
+      setPressedNotes((previousNotes) => {
+        return previousNotes.filter((note) => note !== noteNumber)  // so passa se vc passar o filtro. pra cada levantada tem um desse ai
+      })
+    }
+
+    // os chamadores de funcao tao aq
+    window.addEventListener('keydown', handleKeyDown) 
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
     }
   }, []) // means React should connect this listener when the component appears, not after every render.
 
@@ -40,11 +63,14 @@ function App() {
 
         <div className="input-grid">
           <article className="input-card">
-            <p className="input-status">Available during development</p>
+            <p className="input-status">Test with your keyboard</p>
             <h3>Computer keyboard</h3>
             <p className="note-readout">
-              {/* This is like a variable apparently, getting the lastNote and changing it*/}
-              Last note: <strong>{lastNote ?? 'None yet'}</strong>
+              {/* This is like a variable apparently, getting the lastNote and changing it. Now pressed notes is like a lisssstttt and it has a join*/}
+              Pressed notes:{' '}
+            <strong>
+              {pressedNotes.length === 0 ? 'None' : pressedNotes.join(', ')}
+            </strong>
             </p>
 
             <p>

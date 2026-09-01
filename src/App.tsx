@@ -83,13 +83,6 @@ function App() {
     setKeyboardOctave((previousOctave) => previousOctave + change)
   }
 
-
-  // what is this async thing?
-  async function handleTestTone() {
-
-    await startNote(69) // toma um A
-  }
-
   // i had put this inside useEffect. Thats dumb.
   const pressedNoteNames = pressedNotes.map((noteNumber) => { // map agora tacou a funcao em geral. legal
     return midiNoteToName(noteNumber)

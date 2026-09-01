@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react' // react things. useState lets the c
 import { PianoKeyboard } from './components/PianoKeyboard'
 import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
 import { midiNoteToName } from './music/noteNames'
-import { playTestTone } from './audio/noteSynth'
+import { startNote, stopNote } from './audio/noteSynth' // tem q pegar os dois neh garai
 import './App.css'
 
 
@@ -35,7 +35,7 @@ function App() {
       // so this offset moves the whole computer-keyboard range together.
       const noteNumber = baseNoteNumber + octaveNoteOffset
 
-      await playTestTone(noteNumber)
+      await startNote(noteNumber)
 
       setPressedNotes((previousNotes) => {
         if (previousNotes.includes(noteNumber)) {
@@ -54,6 +54,8 @@ function App() {
       }
 
       const noteNumber = baseNoteNumber + octaveNoteOffset
+
+      stopNote(noteNumber)
 
       setPressedNotes((previousNotes) => {
         return previousNotes.filter((note) => note !== noteNumber)  // so passa se vc passar o filtro. pra cada levantada tem um desse ai
@@ -85,7 +87,7 @@ function App() {
   // what is this async thing?
   async function handleTestTone() {
 
-    await playTestTone(69) // toma um A
+    await startNote(69) // toma um A
   }
 
   // i had put this inside useEffect. Thats dumb.
@@ -140,9 +142,6 @@ function App() {
                 Octave down
               </button>
 
-              <button type="button" onClick={handleTestTone}>
-                Play an A
-              </button>
               <p aria-live="polite">
                 Range: C{keyboardOctave}–C{keyboardOctave + 1}
               </p>

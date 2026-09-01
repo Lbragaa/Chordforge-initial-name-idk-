@@ -5,7 +5,15 @@ import { midiNoteToFrequency } from './midiNoteToFrequency'
 
 let audioContext: AudioContext | undefined
 
-export async function playTestTone(noteNumber: number) {
+//ActiveVoice type pra ter as parada ai pra ser lembrada num map algo assim.
+type ActiveVoice = {
+    oscillator: OscillatorNode
+    gainNode: GainNode
+}
+
+const activeVoices = new Map<number, ActiveVoice>()
+
+export async function startNote(noteNumber: number) {
     // Your implementation goes here
 
     if (audioContext === undefined) {
@@ -18,6 +26,12 @@ export async function playTestTone(noteNumber: number) {
     }
 
     // Create oscillator and gain node
+
+    // Put the check here. If the note we just attempted is already playing, we dont play it over again.
+    if (activeVoices.has(noteNumber)) {
+        return
+    }
+
     const oscillator = audioContext.createOscillator()
     const gainNode = audioContext.createGain()
 
@@ -27,7 +41,24 @@ export async function playTestTone(noteNumber: number) {
     oscillator.connect(gainNode)
     gainNode.connect(audioContext.destination)
 
+    // Incluindo o noteNumber, com o respectivo oscillator and gainNode no activeVoices
+    activeVoices.set(noteNumber, {
+        oscillator,
+        gainNode,
+    })
+    
     oscillator.start()
-    oscillator.stop(audioContext.currentTime + 0.5)
+    // For now it wont necessarily stop.
 
+}
+
+export function stopNote(noteNumber: number) {
+  const activeVoice = activeVoices.get(noteNumber) // Buscando a nota entregue
+
+  if (activeVoice === undefined) {
+    return
+  }
+
+  activeVoice.oscillator.stop()
+  activeVoices.delete(noteNumber)
 }

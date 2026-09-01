@@ -20,16 +20,22 @@ function App() {
       setPressedNotes([])
     }
 
-    function handleKeyDown(event: KeyboardEvent) {
+    async function handleKeyDown(event: KeyboardEvent) {
       const baseNoteNumber = getNoteForKeyboardCode(event.code)
 
       if (baseNoteNumber === undefined) {
         return
       }
 
+      if (event.repeat) {
+        return
+      }
+
       // The original map describes C4-C5. Every octave is 12 MIDI notes,
       // so this offset moves the whole computer-keyboard range together.
       const noteNumber = baseNoteNumber + octaveNoteOffset
+
+      await playTestTone(noteNumber)
 
       setPressedNotes((previousNotes) => {
         if (previousNotes.includes(noteNumber)) {

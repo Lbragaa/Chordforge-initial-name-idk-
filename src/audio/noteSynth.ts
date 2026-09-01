@@ -46,7 +46,7 @@ export async function startNote(noteNumber: number) {
         oscillator,
         gainNode,
     })
-    
+
     oscillator.start()
     // For now it wont necessarily stop.
 
@@ -61,4 +61,12 @@ export function stopNote(noteNumber: number) {
 
   activeVoice.oscillator.stop()
   activeVoices.delete(noteNumber)
+}
+
+export function stopAllNotes() {
+  const activeNoteNumbers = [...activeVoices.keys()]
+
+  activeNoteNumbers.forEach((noteNumber) => {
+    stopNote(noteNumber)
+  })
 }

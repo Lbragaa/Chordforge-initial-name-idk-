@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react' // react things. useState lets the c
 import { PianoKeyboard } from './components/PianoKeyboard'
 import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
 import { midiNoteToName } from './music/noteNames'
-import { startNote, stopNote } from './audio/noteSynth' // tem q pegar os dois neh garai
+import { startNote, stopAllNotes, stopNote } from './audio/noteSynth' // tem q pegar os dois neh garai
 import './App.css'
 
 
@@ -17,6 +17,7 @@ function App() {
 
     // Function preparing for the blur. Like alt-tab. This prevents from notes getting stuck and shi
     function handleWindowBlur() {
+      stopAllNotes()
       setPressedNotes([])
     }
 
@@ -69,6 +70,7 @@ function App() {
 
     // Cleanup function
     return () => {
+      stopAllNotes()
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
       window.removeEventListener('blur', handleWindowBlur)
@@ -79,6 +81,7 @@ function App() {
   // Funcao pro butao de Octave Change ai, que vai no limite de 4 aparentemente, ou nao tem sla
   function handleOctaveChange(change: number) {
     // Clear held notes before changing range so an old note cannot get stuck.
+    stopAllNotes()
     setPressedNotes([])
     setKeyboardOctave((previousOctave) => previousOctave + change)
   }

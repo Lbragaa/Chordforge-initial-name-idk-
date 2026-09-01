@@ -14,7 +14,7 @@ const noteNames = [
   'B',
 ]
 
-// Function for midiNoteToNAme
+// Function for midiNoteToName
 export function midiNoteToName(noteNumber: number): string {
   const noteIndex = noteNumber % 12 // (makes sense)
   const octave = Math.floor(noteNumber / 12) - 1 // this is the math for the octave apparently

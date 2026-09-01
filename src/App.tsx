@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react' // react things. useState lets the c
 import { PianoKeyboard } from './components/PianoKeyboard'
 import { getNoteForKeyboardCode } from './input/keyboardNoteMap' // pegando o bagulho la do notemap
 import { midiNoteToName } from './music/noteNames'
+import { playTestTone } from './audio/noteSynth'
 import './App.css'
 
 
@@ -9,6 +10,8 @@ function App() {
   const [pressedNotes, setPressedNotes] = useState<number[]>([]) // now the initial value is an empty the list, and the expect one is a number list
   const [keyboardOctave, setKeyboardOctave] = useState(4)
   const octaveNoteOffset = (keyboardOctave - 4) * 12
+
+
 
   useEffect(() => {
 
@@ -72,6 +75,13 @@ function App() {
     setKeyboardOctave((previousOctave) => previousOctave + change)
   }
 
+
+  // what is this async thing?
+  async function handleTestTone() {
+
+    await playTestTone(69) // toma um A
+  }
+
   // i had put this inside useEffect. Thats dumb.
   const pressedNoteNames = pressedNotes.map((noteNumber) => { // map agora tacou a funcao em geral. legal
     return midiNoteToName(noteNumber)
@@ -122,6 +132,10 @@ function App() {
                 disabled={keyboardOctave === 1}
               >
                 Octave down
+              </button>
+
+              <button type="button" onClick={handleTestTone}>
+                Play an A
               </button>
               <p aria-live="polite">
                 Range: C{keyboardOctave}–C{keyboardOctave + 1}

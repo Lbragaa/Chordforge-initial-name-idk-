@@ -89,7 +89,7 @@ function App() {
                 {pressedNotes.length === 0 ? 'None' : pressedNotes.join(', ')}
               </strong>
             </p>
-
+            {/*GPT description: Give PianoKeyboard a prop named pressedNotes, using the value stored in App’s pressedNotes variable. */}
             <PianoKeyboard pressedNotes={pressedNotes} />
 
             <p>

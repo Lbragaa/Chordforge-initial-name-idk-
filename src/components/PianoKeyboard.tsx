@@ -4,6 +4,8 @@ import './PianoKeyboard.css'
 type PianoKeyboardProps = {
   // App owns this list and sends it here as a prop. This component only reads it.
   pressedNotes: number[]
+  // This moves the displayed C4-C5 key data into App's selected octave.
+  noteOffset: number
 }
 
 // A type describes which properties every object of this kind must have.
@@ -49,7 +51,7 @@ const blackKeys: BlackPianoKey[] = [
 // }
 // The shorter version below destructures it immediately: take the pressedNotes
 // property from the props object and create a local variable with that value.
-export function PianoKeyboard({ pressedNotes }: PianoKeyboardProps) {
+export function PianoKeyboard({ pressedNotes, noteOffset }: PianoKeyboardProps) {
   return (
     // A div is a generic container. CSS turns this otherwise plain container
     // into the frame that holds the white and black piano keys.
@@ -58,8 +60,9 @@ export function PianoKeyboard({ pressedNotes }: PianoKeyboardProps) {
         {/* map gives this function one array item at a time. We chose the local
             name pianoKey; during each turn it has that item's properties. */}
         {whiteKeys.map((pianoKey) => {
+          const displayedNoteNumber = pianoKey.noteNumber + noteOffset
           // true when App's pressedNotes list contains this key's MIDI number.
-          const isPressed = pressedNotes.includes(pianoKey.noteNumber)
+          const isPressed = pressedNotes.includes(displayedNoteNumber)
 
           return (
             <div
@@ -67,10 +70,10 @@ export function PianoKeyboard({ pressedNotes }: PianoKeyboardProps) {
               // true, the ternary adds the class that activates pressed CSS.
               className={`piano-key piano-key--white${isPressed ? ' piano-key--pressed' : ''}`}
               // React uses this unique value to keep track of this list item.
-              key={pianoKey.noteNumber}
+              key={displayedNoteNumber}
             >
               <span className="piano-key__note">
-                {midiNoteToName(pianoKey.noteNumber)}
+                {midiNoteToName(displayedNoteNumber)}
               </span>
               <kbd className="piano-key__computer-key">
                 {pianoKey.keyboardLabel}
@@ -81,18 +84,19 @@ export function PianoKeyboard({ pressedNotes }: PianoKeyboardProps) {
       </div>
 
       {blackKeys.map((pianoKey) => {
-        const isPressed = pressedNotes.includes(pianoKey.noteNumber)
+        const displayedNoteNumber = pianoKey.noteNumber + noteOffset
+        const isPressed = pressedNotes.includes(displayedNoteNumber)
 
         return (
           <div
             className={`piano-key piano-key--black${isPressed ? ' piano-key--pressed' : ''}`}
-            key={pianoKey.noteNumber}
+            key={displayedNoteNumber}
             // The outer braces enter JavaScript; the inner braces create a
             // style object. This puts each black key between its white keys.
             style={{ left: `${pianoKey.leftPosition}%` }}
           >
             <span className="piano-key__note">
-              {midiNoteToName(pianoKey.noteNumber)}
+              {midiNoteToName(displayedNoteNumber)}
             </span>
             <kbd className="piano-key__computer-key">
               {pianoKey.keyboardLabel}

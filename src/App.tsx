@@ -11,8 +11,6 @@ function App() {
   const [keyboardOctave, setKeyboardOctave] = useState(4)
   const octaveNoteOffset = (keyboardOctave - 4) * 12
 
-
-
   useEffect(() => {
 
     // Function preparing for the blur. Like alt-tab. This prevents from notes getting stuck and shi

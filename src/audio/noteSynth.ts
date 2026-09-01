@@ -64,9 +64,9 @@ export function stopNote(noteNumber: number) {
 }
 
 export function stopAllNotes() {
-  const activeNoteNumbers = [...activeVoices.keys()]
+  const activeNoteNumbers = [...activeVoices.keys()] // Pegando so as notas colocando em um array, que vai servir de "guia" pro forEach.
 
-  activeNoteNumbers.forEach((noteNumber) => {
+  activeNoteNumbers.forEach((noteNumber) => { // could this have been a map?
     stopNote(noteNumber)
   })
 }
